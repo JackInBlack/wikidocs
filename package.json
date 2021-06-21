@@ -1,0 +1,24 @@
+{
+  "name": "wikidocs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "wikidocs",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "gatsby": "^3.6.2",
+    "gatsby-plugin-emotion": "^6.7.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
