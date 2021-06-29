@@ -131,7 +131,7 @@ const IndexPage = () => {
   return (
     <main style={pageStyles}>
       <title>Home Page</title>
-      <img src={require('/static/site-icon.png').default} height={24} width={24}/>
+      
       <h1 style={headingStyles}>
         Congratulations
         <br />

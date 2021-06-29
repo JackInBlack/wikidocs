@@ -16,7 +16,7 @@ const StyledIconButton = styled.button`
   border: none;
   color: ${p => p.theme.colors.text};
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1px;
   &:hover {
     color: ${p => p.theme.colors.primary};
   }

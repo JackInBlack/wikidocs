@@ -1,28 +1,25 @@
+import React, { useState } from 'react'
+import toc from "/content/888toc.json";
 import styled from '@emotion/styled';
 import { graphql, useStaticQuery } from 'gatsby';
-import React, { useState } from 'react';
-import NavItem from './NavItem';
-import toc from "/content/888toc.json";
+import NavItem from '/src/components/LeftSidebar/NavItem';
 
-/**
- * This File was inspired by https://github.com/hasura/gatsby-gitbook-starter
- 
- const treeify = () => {
+const treeify = () => {
   var idAttr = 'myId';
   var parentAttr = 'myParent';
   var childrenAttr = 'items';
 
-  const treeList = [];
-  const lookup = {};
+  var treeList = [];
+  var lookup = {};
   toc.forEach(obj => {
       lookup[obj[idAttr]] = obj;
       obj[childrenAttr] = [];
-      obj.myAAttr.myHref = obj.myAAttr.myHref.replace(/\.[^/.]+$/, "");
+      obj.myAAttr.myHref = "/" + obj.myAAttr.myHref.replace(/\.[^/.]+$/, "");
   });
   toc.forEach(obj => {
       if(lookup[obj[parentAttr]])
       { 
-        obj.myAAttr.myHref =  lookup[obj[parentAttr]].myAAttr.myHref + "/" + obj.myAAttr.myHref
+        obj.myAAttr.myHref = lookup[obj[parentAttr]].myAAttr.myHref + obj.myAAttr.myHref 
         lookup[obj[parentAttr]][childrenAttr].push(obj)
       }
       else
@@ -32,7 +29,30 @@ import toc from "/content/888toc.json";
   });
   return treeList;
 }
+const gera = treeify()
+const findUrl = (slug, arr) => {
+  return arr.reduce((a, item) => {
+    if (a) return a;
+    if (item.myAAttr.myHref.includes(slug)) return item.myAAttr.myHref;
+    if (item.items) return findUrl(slug, item.items);
+  }, null);
+}
+console.log(JSON.stringify(gera))
 /*
+gera.forEach(g => {
+    g.label = g.myId;
+    delete g.myId;
+    g.title = g.myText
+    delete g.myText
+    g.url = "/" + g.myAAttr.myHref.replace(/\.[^/.]+$/, "");
+    delete g.myAAttr
+})
+
+gera[ title ] = gera[ myText ];
+delete gera[ myText ];
+gera[ url ] = gera[ myAttr ][ myHref ];
+delete gera[ myAttr ];*/
+
 const calculateTreeData = (edges, sidebarConfig) => {
   const originalData = sidebarConfig.ignoreIndex
     ? edges.filter(
@@ -118,8 +138,8 @@ const calculateTreeData = (edges, sidebarConfig) => {
     return accu;
   }, tree);
 };
-*/
-const Navigation = () => {
+
+const Gerarchia = () => {
   const result = useStaticQuery(graphql`
     query {
       allSite {
@@ -144,22 +164,17 @@ const Navigation = () => {
           }
         }
       }
-      tree{
-        content
-      }
     }
   `);
-  /*const { allSite, allMdx } = result;
+  const { allSite, allMdx } = result;
   const { sidebarConfig } = allSite.edges[0].node.siteMetadata;
   const [treeData] = useState(() => {
     return calculateTreeData(allMdx.edges, sidebarConfig);
-  });*/
-  const {tree} = result;
-  const gerarchia = JSON.parse(tree.content);
+  });
   return (
     <NavList>
-      {gerarchia.map(item => (
-        <NavItem key={item.myAAttr.myHref} item={item} />
+      {gera.map(item => (
+        <NavItem key={item.url} item={item} />
       ))}
     </NavList>
   );
@@ -171,4 +186,5 @@ const NavList = styled.ul`
   list-style: none;
 `;
 
-export default React.memo(Navigation);
+
+export default Gerarchia;

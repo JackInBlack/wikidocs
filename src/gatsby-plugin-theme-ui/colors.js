@@ -1,7 +1,7 @@
-export default {
+const colors =  {
   text: '#0e1111',
   background: '#fff',
-  primary: '#0072bb',
+  primary: '#01447e',
   secondary: '#9f3030',
   sidebar: '#e9eff4',
   borderColor: '#bbbbbb',
@@ -32,3 +32,5 @@ export default {
     }
   }
 };
+
+export default colors;

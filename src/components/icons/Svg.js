@@ -12,7 +12,7 @@ const StyledSVG = styled.svg`
   transition: all ${p => p.theme.transition};
   &:hover,
   &:focus {
-    fill: ${p => p.theme.colors.primary};
+    fill: ${p => p.theme.colors.text};
   }
 `;
 

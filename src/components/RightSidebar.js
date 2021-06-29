@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import mediaqueries from '../styles/media';
 import ListItem from './ListItem';
+import Scrollspy from 'react-scrollspy';
+import '/src/styles/is-current.css'
 
 const RightSidebar = ({ tableOfContents, location }) => {
   const [listItems] = useState(() => {
@@ -12,26 +14,31 @@ const RightSidebar = ({ tableOfContents, location }) => {
     const mappedLinks = [];
     function mapLinks(items) {
       items.forEach(item => {
-        mappedLinks.push(item);
+        if(item.title)
+        {
+          mappedLinks.push(item);
+        }
         if (item.items) {
           mapLinks(item.items);
         }
       });
     }
-    mapLinks(tableOfContents.items);
+    mapLinks(tableOfContents.items) ;  
     return mappedLinks;
   });
-
+  
   return (
     <RightSidebarWrapper>
       <RightSidebarNav>
         <RightSidebarTitle>Contenuti</RightSidebarTitle>
         <RightSidebarList>
-          {listItems.map(item => (
-            <RightSidebarListItem key={location.pathname + item.url}>
+        <Scrollspy items={listItems.map(item => {return item.url.substring(1)})} currentClassName="is-current">
+        {listItems.map(item => (
+            <RightSidebarListItem key={item.url}>
               <ListItem location={location} item={item} />
             </RightSidebarListItem>
           ))}
+          </Scrollspy>
         </RightSidebarList>
       </RightSidebarNav>
     </RightSidebarWrapper>
@@ -40,7 +47,7 @@ const RightSidebar = ({ tableOfContents, location }) => {
 
 const RightSidebarWrapper = styled.aside`
   display: none;
-  flex: 0 0 18rem;
+  flex: 0 0 23rem;
   font-size: 0.75rem;
   font-weight: 200;
   ${mediaqueries.desktop_medium_up`
@@ -57,6 +64,7 @@ const RightSidebarNav = styled.nav`
   width: 18rem;
   height: 100%;
   padding: 7rem 0rem 0rem;
+  
 `;
 
 const RightSidebarTitle = styled.p`
@@ -75,10 +83,16 @@ const RightSidebarList = styled.ul`
     padding: 0;
     list-style: none;
   }
+  & > li.is-current > a{
+    color: white;
+  }
 `;
 
 const RightSidebarListItem = styled.li`
   margin: 0.3rem 0;
+  & .is-current{
+    color: white;
+  }
 `;
 
 RightSidebar.propTypes = {

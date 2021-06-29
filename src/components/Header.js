@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React  from 'react';
 import useCycleColor from '../hooks/useCycleColor';
 import mediaqueries from '../styles/media';
 import ColorToggle from './icons/ColorToggle';
 import IconButton from './icons/IconButton';
 import Menu from './icons/Menu';
 import LogoWrapper from './LogoWrapper';
+import LogoImage from './LogoImage';
 
 const Header = ({ navOpen, setNavOpen }) => {
   const { cycleColorMode } = useCycleColor();
@@ -23,8 +24,11 @@ const Header = ({ navOpen, setNavOpen }) => {
             }}
           />
         </NavIconButton>
+        <LogoImage/>
         <LogoWrapper />
+        
       </HeaderSection>
+      
       <HeaderSection>
         <IconButton
           label="Change Theme Color"
@@ -57,6 +61,7 @@ const StyledHeader = styled.header`
 
   `};
 `;
+
 
 const NavIconButton = styled.div`
   display: flex;

@@ -8,9 +8,26 @@ import mediaqueries from '../styles/media';
 import Header from './Header';
 import LeftSidebar from './LeftSidebar';
 import RightSidebar from './RightSidebar';
+import { Breadcrumb } from 'gatsby-plugin-breadcrumb'
 
-const Layout = ({ children, tableOfContents, location }) => {
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+const Layout = ({ children, tableOfContents, location, pageContext: {
+    breadcrumb: { crumbs }, crumbLabel
+  }, }) => {
+    console.log(crumbs)
   const [navOpen, setNavOpen] = useState(false);
+    if (crumbs[0].pathname === "/" && crumbs.length !== 1) {
+        crumbs.splice(0,1);
+    }
+    crumbs.forEach(function (arrayItem) {
+      arrayItem.pathname = arrayItem.pathname.replace(/\/\s*$/, "");
+      arrayItem.crumbLabel = arrayItem.crumbLabel.toUpperCase()
+    });
+  
+  
   return (
     <Themed.root>
       <Global styles={globalStyles} />
@@ -18,9 +35,9 @@ const Layout = ({ children, tableOfContents, location }) => {
       <SiteWrapper>
         <LeftSidebar navOpen={navOpen} />
         <SiteContentWrapper>
-          
+       
           <SiteContent navOpen={navOpen}>
-          <BreadCrumbs>{location.pathname}</BreadCrumbs>
+          <Breadcrumb crumbs={crumbs} crumbSeparator="›"/>
           {children}
           </SiteContent>
         
@@ -41,30 +58,22 @@ const SiteWrapper = styled.div`
   transition: background 0.25s var(--ease-in-out-quad);
 `;
 
-const BreadCrumbs = styled.div`
-  flex-grow: 1;
-
-  overflow-x: auto;
-  word-wrap:break-word;
-
-  
-`;
-
 const SiteContentWrapper = styled.div`
   flex-grow: 1;
-  min-width: 20rem;
+  min-width: 20vh;
 `;
 
 const SiteContent = styled.main`
   padding: 2rem 1rem 2rem;
   transition: 0.25s var(--ease-in-out-quad);
+  
   opacity: ${p => (p.navOpen ? 0.3 : 1)};
   transform: ${p => (p.navOpen ? `translateX(16rem)` : null)};
   ${mediaqueries.desktop_up`
     transform: translateX(0);
     opacity: 1;
-    padding: 7rem 3rem 3rem;
-    max-width: 50rem;
+    padding: 7rem 2rem 0rem 6rem;
+    max-width: 68rem;
   `};
 `;
 
@@ -73,5 +82,8 @@ Layout.propTypes = {
   tableOfContents: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired
 };
+
+
+
 
 export default Layout;

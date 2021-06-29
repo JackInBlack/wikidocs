@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Add from './icons/Add';
-import Icon from './icons/Icon';
-import Minimize from './icons/Minimize';
+import { BsChevronCompactRight } from "@react-icons/all-files/bs/BsChevronCompactRight";
+import { BsChevronCompactDown } from "@react-icons/all-files/bs/BsChevronCompactDown";
 
 const ButtonCollapse = ({ onClick, isCollapsed }) => {
   return (
@@ -12,7 +11,7 @@ const ButtonCollapse = ({ onClick, isCollapsed }) => {
       aria-label="Toggle Subnavigation"
       title="Toggle Subnavigation"
     >
-      {isCollapsed ? <Icon icon={<Add />} size={22} /> : <Icon icon={<Minimize />} size={22} />}
+      {isCollapsed ? <BsChevronCompactRight size={16} /> : <BsChevronCompactDown size={16} />}
     </StyledButtonCollapse>
   );
 };
@@ -21,7 +20,6 @@ const StyledButtonCollapse = styled.button`
   position: absolute;
   top: 0;
   right: 1.2rem;
-
   padding: 0.2rem;
   height: 37px;
   background: none;
@@ -29,6 +27,10 @@ const StyledButtonCollapse = styled.button`
   color: ${p => p.theme.colors.text};
   cursor: pointer;
   font-size: 1rem;
+  &.is-active { 
+    font-weight: bold;
+    height: 60px;
+  }
 `;
 
 ButtonCollapse.propTypes = {

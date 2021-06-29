@@ -14,7 +14,7 @@ const headingBase = {
   }
 };
 
-export default {
+const headings =  {
   h1: {
     ...headingBase,
     fontSize: 5
@@ -40,3 +40,5 @@ export default {
     fontSize: 0
   }
 };
+
+export default headings;

@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   transition: background ${p => p.theme.transition};
   &:hover,
   &:focus {
-    background-color: ${p => p.theme.colors.secondary};
+    background-color: #0f0;
   }
 `;
 

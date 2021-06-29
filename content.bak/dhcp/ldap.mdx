@@ -1,0 +1,158 @@
+# Relazione Server LDAP
+Installazione e configurazione di un Server LDAP su macchina Unix.
+Sistema Operativo: Raspbian GNU/Linux 10 (buster).
+Versione LDAP: LDAP 2.4.47
+Versione BIND: BIND 9.11.5
+
+### Introduzione
+Il protocollo **Lightweight Directory Access Protocol** (LDAP) è un servizio
+di directory di tipo client-server che comunica facendo utilizzo della
+suite TCP/IP ed è basato sul modello di rappresentazione dati
+standardizzato “X.500”. Si tratta di un servizio simile ad una base dati,
+in grado di fare inserimenti, modifiche e cancellazioni, ma ottimizzato
+per la lettura invece che per la scrittura.
+La struttura di memorizzazione delle entry chiamata DIT (Directory
+Information Tree) è un albero gerarchico costituito da entry che fanno da
+nodi. Ogni entry è caratterizzata e identificata univocamente da un DN
+(Distinguished Name) che a sua volta è formato da un RDN(Relative
+Distinguished Name) seguito dal DN della entry padre.
+Ad esempio
+cn=mrossi,dc=people,dc=gruppo9,dc=labreti,dc=it
+è costituito da una parte RDN ovvero cn=mrossi e da una parte DN della
+entry padre ovvero dc=people,dc=gruppo9,dc=labreti,dc=it.
+Ogni entry quindi è indentificata da un DN e da un insieme di attributi.
+Ogni entry ammette e richiede l’attributo ObjectClass il quale, a sua
+volta, specifica un insieme di altri attributi che possono essere
+accettati dalla entry, alcuni obbligatori altri no.
+Ad esempio la seguente entry
+```
+dn: ou=people,dc=gruppo9,dc=labreti,dc=it
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+```
+contiene gli attributi ObjectClass “top” e “organizationalUnit”. In
+particolare, “organizationalUnit” dichiara che nella entry ora sono
+ammessi altri attributi che prima non lo erano come ou (ou sta per
+Organization Unit) oppure telephoneNumber (che in questo caso non viene
+utilizzato perché non obbligatorio).
+Le ObjectClass ed i loro attributi sono definite negli “schema”. Di
+default LDAP contiene alcuni schema predefiniti altri possono essere
+aggiunti dall’utente.
+
+### Configurazione Iniziale
+
+Al momento della prima configurazione del server, utilizzando il comando
+sudo dpkg-reconfigure slapd
+viene chiesto di dare un nome alla radice del proprio albero DIT. In
+questo caso è stato immesso “gruppo9.labreti.it” che è stato tradotto in
+automatico in **“dc=gruppo9,dc=labreti,dc=it”** e la password
+dell’amministratore dell’albero il cui nome non può essere specificato in
+questo punto e per default è “admin” quindi la sua entry è
+“cn=admin,dc=gruppo9,dc=labreti,dc=it”. La password inserita è
+semplicemente “password”.
+
+### Inserimento Dati
+
+In seguito alla configurazione iniziale vengono inserite le entry
+rappresentanti group, people, alias, dns.
+**FILE ou.ldif**
+```
+dn: ou=dns,dc=gruppo9,dc=labreti,dc=it
+objectClass: organizationalUnit
+objectClass: top
+ou: dns
+dn: ou=alias,dc=gruppo9,dc=labreti,dc=it
+objectClass: organizationalUnit
+objectClass: top
+ou: alias
+dn: ou=group,dc=gruppo9,dc=labreti,dc=it
+objectClass: organizationalUnit
+objectClass: top
+ou: group
+dn: ou=people,dc=gruppo9,dc=labreti,dc=it
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+```
+Queste entry, discendenti diretti del nodo radice, rappresentano tutte dei
+raggruppamenti di altre entry. Ad esempio
+
+    ou=people,dc=gruppo9,dc=labreti,dc=it
+
+avrà dei nodi discendenti che rappresenteranno delle persone. Non è però
+obbligatorio che i nodi rappresentino soltanto persone, non esistono
+limitazioni su come creare nodi.
+Per inserire entry all’interno della base dati del server LDAP i dati
+devono essere inseriti in un file con estensione .ldif e deve essere
+utilizzato il comando 
+
+    ldapadd -x -D "cn=admin,dc=gruppo9,dc=labreti,dc=it" -W -f /<path>/ou.ldif
+
+l’opzione -D indica la entry nel DIT a cui il comando ldapadd si deve
+legare prima di compiere l’azione sulla base dati. Senza questo legame non
+si potrebbe accedere ai permessi di scrittura sul DIT. Fondamentalmente
+l’opzione -D in questo caso funziona da autenticazione come admin. Le
+opzioni -x e -W permettono di autenticarsi ed inserire la password della
+entry specificata dall’opzione -D.
+Vengono quindi inseriti alcuni utenti all’interno della ou people con lo
+stesso comando ldapadd.
+Siccome ogni DN è costituito da ou=people,dc=gruppo9,dc=labreti,dc=it
+automaticamente tutte le entry diventano discendenti di quel nodo.
+**FILE people.ldif**
+```
+dn: uid=mrossi,ou=people,dc=gruppo9,dc=labreti,dc=it
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+uid: mrossi
+givenName: Mario
+sn: Rossi
+cn: Mario Rossi
+loginShell: /bin/bash
+uidNumber: 1003
+gidNumber: 101
+homeDirectory: /home/mrossi
+userPassword:: password
+telephoneNumber: +39 352 1234754
+mobile: +39 352 342121
+mail: mario.rossi@gruppo9.labreti.it
+dn: uid=ldavinci,ou=people,dc=gruppo9,dc=labreti,dc=it
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+uid: ldavinci
+uidNumber: 1002
+loginShell: /bin/bash
+gidNumber: 101
+homeDirectory: /home/ldavinci
+givenName: Leonardo
+sn: Da Vinci
+cn: Leonardo Da Vinci
+userPassword:: password
+telephoneNumber: +39 352 1231232
+mobile: +39 352 3453454
+mail: leonardo.davinci@gruppo9.labreti.itdn: uid=sgiuliani,ou=people,dc=gruppo9,dc=labreti,dc=it
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+uid: sgiuliani
+uidNumber: 1001
+loginShell: /bin/bash
+gidNumber: 101
+homeDirectory: /home/sgiuliani
+givenName: Stefano
+sn: Giuliani
+cn: Stefano Giuliani
+userPassword:: password
+telephoneNumber: +39 352 1231231
+mobile: +39 352 3453453
+mail: stefano.giuliani@gruppo9.labreti.it
+```
+

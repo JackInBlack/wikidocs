@@ -4,10 +4,7 @@ import React from 'react';
 
 const LogoWrapper = () => (
   <StyledLogoWrapper>
-    <LogoLink to="/">
-    <LogoImg><img src={require('/static/site-icon.png').default} height={24} width={24}/></LogoImg>
-    WIKI DOCS
-    </LogoLink>
+    <LogoLink to="/">888WIKI DOCS</LogoLink>
   </StyledLogoWrapper>
 );
 
@@ -23,26 +20,15 @@ const LogoLink = styled(Link)`
   align: center;
   display: inline-block;
   text-decoration: none;
-  
-  font-size: 20px;
-  padding: 0rem 0.3rem 0rem;
-  font-weight: bold;
+  font-size: 25px;
+  padding: 0rem 0.5rem 0rem;
+  font-weight: normal;
   color: ${p => p.theme.colors.text};
   transition: color ${p => p.theme.transition};
   &:hover,
   &:focus {
     color: ${p => p.theme.colors.primary};
   }
-`;
-
-
-
-const LogoImg = styled(Link)`
-  vertical-align: middle;
-  margin-bottom: 0px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0rem 0.3rem 0rem;
 `;
 
 export default LogoWrapper;

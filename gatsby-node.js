@@ -1,5 +1,39 @@
 const startCase = require('lodash/startCase');
+const toc = require('./content/888toc.json')
 
+const treeify = () => {
+  var idAttr = 'myId';
+  var parentAttr = 'myParent';
+  var childrenAttr = 'items';
+
+  var treeList = [];
+  var lookup = {};
+  toc.forEach(obj => {
+      lookup[obj[idAttr]] = obj;
+      obj[childrenAttr] = [];
+      obj.myAAttr.myHref = "/" + obj.myAAttr.myHref.replace(/\.[^/.]+$/, "");
+  });
+  toc.forEach(obj => {
+      if(lookup[obj[parentAttr]])
+      { 
+        obj.myAAttr.myHref =  lookup[obj[parentAttr]].myAAttr.myHref + obj.myAAttr.myHref
+        lookup[obj[parentAttr]][childrenAttr].push(obj)
+      }
+      else
+      {
+        treeList.push(obj)
+      } 
+  });
+  return treeList;
+}
+const gerarchia = treeify();
+const findUrl = (slug, arr) => {
+  return arr.reduce((a, item) => {
+    if (a) return a;
+    if (item.myAAttr.myHref.includes(slug)) return item;
+    if (item.items) return findUrl(slug, item.items);
+  }, null);
+}
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const result = await graphql(
     `
@@ -23,11 +57,13 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
   result.data.allMdx.edges.forEach(({ node }) => {
+    const item = findUrl(node.fields.slug, gerarchia)
     actions.createPage({
-      path: node.fields.slug ? node.fields.slug : '/',
+      path: (node.fields.slug !== '/') ? item.myAAttr.myHref : '/',
       component: require.resolve('./src/templates/docs'),
       context: {
-        id: node.fields.id
+        id: node.fields.id,
+        crumbLabel: item.myText
       }
     });
   });
@@ -73,3 +109,17 @@ exports.onCreateNode = ({ node, getNode, actions, reporter }) => {
     });
   }
 };
+
+exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
+  const node = {
+    /*
+    id: createNodeId(`toc-${t.myId}`),*/
+    content: JSON.stringify(gerarchia),
+    id: createNodeId(`toc`),
+    internal: {
+      type: "tree",
+      contentDigest: createContentDigest(gerarchia),
+    },
+  }
+    actions.createNode(node)
+}
