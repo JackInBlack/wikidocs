@@ -56,3 +56,8 @@
   margin: 0 0.25em;
   padding: 2px 1px;
   }
+  
+
+  li.is-current > a {
+    font-weight: bold;
+}

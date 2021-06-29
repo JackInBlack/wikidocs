@@ -1,6 +1,14 @@
 const startCase = require('lodash/startCase');
+/* per costruire la gerarchia del sito tramite file json viene dapprima importato il file json 
+   Esiste la necessità di creare la gerarchia durante la creazione del sito con gatsby-node perchè 
+   altrimenti ogni url non risulterebbe conforme con la vera gerarchia dei file*/
 const toc = require('./content/888toc.json')
 
+
+/* la routine treeify prende il contenuto del file json e crea una gerarchia
+   basata sui campi myId e myParent (se il campo myParent di un oggetto è presente già nella gerarchia
+   come myId allora quell'oggetto sarà inserito come nodo figlio del secondo oggetto).
+   Inoltre ogni url di ogni oggetto viene creato a seconda della gerarchia (eg. padre/figlio/nipote) */
 const treeify = () => {
   var idAttr = 'myId';
   var parentAttr = 'myParent';
@@ -26,7 +34,10 @@ const treeify = () => {
   });
   return treeList;
 }
+/* la gerarchia generata da treeify() viene salvata in una variabile */
 const gerarchia = treeify();
+
+/* la routine findUrl() serve per cercare l'url corretto all'interno della gerarchia a seconda del nome */
 const findUrl = (slug, arr) => {
   return arr.reduce((a, item) => {
     if (a) return a;
@@ -57,13 +68,20 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
   result.data.allMdx.edges.forEach(({ node }) => {
+    /* per ogni file mdx all'interno di content 
+       cerca il nome del file all'interno della gerarchia e ritorna il path completo */
     const item = findUrl(node.fields.slug, gerarchia)
+
     actions.createPage({
+      /* imposta il path della pagina come path cercato precedentemente
+         oppure imposta a '/' se il nome del file è index */
       path: (node.fields.slug !== '/') ? item.myAAttr.myHref : '/',
+
+      /* per ogni file mdx all'interno di content viene creata una pagina prendendo come layout  
+         '/src/templates/docs' */
       component: require.resolve('./src/templates/docs'),
       context: {
         id: node.fields.id,
-        crumbLabel: item.myText
       }
     });
   });
@@ -110,6 +128,9 @@ exports.onCreateNode = ({ node, getNode, actions, reporter }) => {
   }
 };
 
+
+/* una volta creata la gerarchia con la routine treeify() viene inserita
+   come nodo all'interno di GraphQL sotto forma di stringa */
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
   const node = {
     /*

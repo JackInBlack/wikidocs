@@ -7,15 +7,15 @@ import ButtonCollapse from '../ButtonCollapse';
 const NavItem = ({item}) => {
   const state = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
-  const siteUrl = item.myAAttr.myHref
-  const isCollapsed = state.collapsed[siteUrl];
+  const pageUrl = item.myAAttr.myHref
+  const isCollapsed = state.collapsed[pageUrl];
   const hasChildren = item.items && item.items.length > 0;
   return (
     <StyledNavItem>
-      <NavItemLink to={siteUrl} activeClassName="is-active">{item.myText}</NavItemLink>
+      <NavItemLink to={pageUrl} activeClassName="is-active">{item.myText}</NavItemLink>
       {hasChildren && (
         <ButtonCollapse activeClassName="is-active" onClick={ () => {
-            dispatch({ type: 'TOGGLE_NAV_COLLAPSED', url: siteUrl });
+            dispatch({ type: 'TOGGLE_NAV_COLLAPSED', url: pageUrl });
           }}
           isCollapsed={!isCollapsed}
         />
@@ -23,7 +23,7 @@ const NavItem = ({item}) => {
       {hasChildren && isCollapsed && (
         <NavItemChild>
         {item.items.map( subItem => (
-          <NavItem key={"/" + subItem.myAAttr.myHref} item={subItem}/>
+          <NavItem key={"/" + pageUrl} item={subItem}/>
         ))}
       </NavItemChild>
       )}

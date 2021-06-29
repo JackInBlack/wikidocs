@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import mediaqueries from '../styles/media';
 import ListItem from './ListItem';
 import Scrollspy from 'react-scrollspy';
-import '/src/styles/is-current.css'
 
 const RightSidebar = ({ tableOfContents, location }) => {
+
   const [listItems] = useState(() => {
     if (!tableOfContents.items) {
       return [];
@@ -83,16 +83,11 @@ const RightSidebarList = styled.ul`
     padding: 0;
     list-style: none;
   }
-  & > li.is-current > a{
-    color: white;
-  }
 `;
 
 const RightSidebarListItem = styled.li`
   margin: 0.3rem 0;
-  & .is-current{
-    color: white;
-  }
+
 `;
 
 RightSidebar.propTypes = {

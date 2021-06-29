@@ -15,7 +15,7 @@ String.prototype.capitalize = function() {
 }
 
 const Layout = ({ children, tableOfContents, location, pageContext: {
-    breadcrumb: { crumbs }, crumbLabel
+    breadcrumb: { crumbs }
   }, }) => {
     console.log(crumbs)
   const [navOpen, setNavOpen] = useState(false);

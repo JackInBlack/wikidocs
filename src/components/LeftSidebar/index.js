@@ -3,38 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import mediaqueries from '../../styles/media';
 import Navigation from './Navigation';
-import toc from "/content/888toc.json";
-
-const treeify = () => {
-  var idAttr = 'myId';
-  var parentAttr = 'myParent';
-  var childrenAttr = 'items';
-
-  const treeList = [];
-  const lookup = {};
-  toc.forEach(obj => {
-      lookup[obj[idAttr]] = obj;
-      obj[childrenAttr] = [];
-      obj.myAAttr.myHref = obj.myAAttr.myHref.replace(/\.[^/.]+$/, "");
-  });
-  toc.forEach(obj => {
-      if(lookup[obj[parentAttr]])
-      { 
-        obj.myAAttr.myHref =  lookup[obj[parentAttr]].myAAttr.myHref + "/" + obj.myAAttr.myHref
-        lookup[obj[parentAttr]][childrenAttr].push(obj)
-      }
-      else
-      {
-        treeList.push(obj)
-      } 
-  });
-  return treeList;
-}
 
 const LeftSidebar = ({ navOpen }) => {
   return (
     <LeftSidebarWrapper>
-      <LeftSidebarNav navOpen={navOpen} tree={treeify()}>
+      <LeftSidebarNav navOpen={navOpen}>
         <Navigation />
       </LeftSidebarNav>
     </LeftSidebarWrapper>
