@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React from 'react';
+import styled from "@emotion/styled";
+import PropTypes from "prop-types";
+import React from "react";
 import { BsChevronCompactRight } from "@react-icons/all-files/bs/BsChevronCompactRight";
 import { BsChevronCompactDown } from "@react-icons/all-files/bs/BsChevronCompactDown";
 
@@ -8,10 +8,14 @@ const ButtonCollapse = ({ onClick, isCollapsed }) => {
   return (
     <StyledButtonCollapse
       onClick={onClick}
-      aria-label="Toggle Subnavigation"
-      title="Toggle Subnavigation"
+      aria-label="Apri navigazione interna"
+      title="Apri navigazione interna"
     >
-      {isCollapsed ? <BsChevronCompactRight size={16} /> : <BsChevronCompactDown size={16} />}
+      {isCollapsed ? (
+        <BsChevronCompactRight size={16} />
+      ) : (
+        <BsChevronCompactDown size={16} />
+      )}
     </StyledButtonCollapse>
   );
 };
@@ -24,18 +28,14 @@ const StyledButtonCollapse = styled.button`
   height: 37px;
   background: none;
   border: 0;
-  color: ${p => p.theme.colors.text};
+  color: ${(p) => p.theme.colors.text};
   cursor: pointer;
   font-size: 1rem;
-  &.is-active { 
-    font-weight: bold;
-    height: 60px;
-  }
 `;
 
 ButtonCollapse.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isCollapsed: PropTypes.bool
+  isCollapsed: PropTypes.bool,
 };
 
 export default ButtonCollapse;

@@ -21,9 +21,11 @@
     "@mdx-js/react": "^1.6.22",
     "@react-icons/all-files": "^4.1.0",
     "@theme-ui/prism": "^0.10.0",
+    "formik": "^2.2.9",
     "gatsby": "^3.6.2",
     "gatsby-plugin-breadcrumb": "^12.1.1",
     "gatsby-plugin-emotion": "^6.7.1",
+    "gatsby-plugin-local-search": "^2.0.1",
     "gatsby-plugin-manifest": "^3.7.1",
     "gatsby-plugin-mdx": "^2.7.1",
     "gatsby-plugin-react-helmet": "^4.7.1",
@@ -38,6 +40,8 @@
     "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
     "react-scrollspy": "^3.4.3",
+    "react-select": "^4.3.1",
+    "react-use-flexsearch": "^0.1.1",
     "theme-ui": "^0.10.0"
   }
 }

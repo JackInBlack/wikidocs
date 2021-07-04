@@ -1,33 +1,32 @@
-import { Global } from '@emotion/core';
-import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Themed } from 'theme-ui';
-import { globalStyles } from '../styles';
-import mediaqueries from '../styles/media';
-import Header from './Header';
-import LeftSidebar from './LeftSidebar';
-import RightSidebar from './RightSidebar';
-import { Breadcrumb } from 'gatsby-plugin-breadcrumb'
+import { Global } from "@emotion/core";
+import styled from "@emotion/styled";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { Themed } from "theme-ui";
+import { globalStyles } from "../styles";
+import mediaqueries from "../styles/media";
+import Header from "./Header";
+import LeftSidebar from "./LeftSidebar";
+import RightSidebar from "./RightSidebar";
+import { Breadcrumb } from "gatsby-plugin-breadcrumb";
 
-String.prototype.capitalize = function() {
-  return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-const Layout = ({ children, tableOfContents, location, pageContext: {
-    breadcrumb: { crumbs }
-  }, }) => {
-    console.log(crumbs)
+const Layout = ({
+  children,
+  tableOfContents,
+  location,
+  pageContext: {
+    breadcrumb: { crumbs },
+  },
+}) => {
   const [navOpen, setNavOpen] = useState(false);
-    if (crumbs[0].pathname === "/" && crumbs.length !== 1) {
-        crumbs.splice(0,1);
-    }
-    crumbs.forEach(function (arrayItem) {
-      arrayItem.pathname = arrayItem.pathname.replace(/\/\s*$/, "");
-      arrayItem.crumbLabel = arrayItem.crumbLabel.toUpperCase()
-    });
-  
-  
+  if (crumbs[0].pathname === "/" && crumbs.length !== 1) {
+    crumbs.splice(0, 1);
+  }
+  crumbs.forEach(function (arrayItem) {
+    arrayItem.pathname = arrayItem.pathname.replace(/\/\s*$/, "");
+    arrayItem.crumbLabel = arrayItem.crumbLabel.toUpperCase();
+  });
+
   return (
     <Themed.root>
       <Global styles={globalStyles} />
@@ -35,12 +34,10 @@ const Layout = ({ children, tableOfContents, location, pageContext: {
       <SiteWrapper>
         <LeftSidebar navOpen={navOpen} />
         <SiteContentWrapper>
-       
           <SiteContent navOpen={navOpen}>
-          <Breadcrumb crumbs={crumbs} crumbSeparator="›"/>
-          {children}
+            <StyledBreadcrumb crumbs={crumbs} crumbSeparator="›" />
+            {children}
           </SiteContent>
-        
         </SiteContentWrapper>
         {tableOfContents.items && (
           <RightSidebar tableOfContents={tableOfContents} location={location} />
@@ -50,11 +47,22 @@ const Layout = ({ children, tableOfContents, location, pageContext: {
   );
 };
 
+const StyledBreadcrumb = styled(Breadcrumb)`
+  background-color: ${(p) => p.theme.colors.sidebar};
+  color: ${(p) => p.theme.colors.primary};
+  text-decoration: none;
+  font-size: 0.8rem;
+  padding: 10px 16px;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0.25em;
+`;
+
 const SiteWrapper = styled.div`
   display: flex;
   min-height: 100vh;
   overflow-x: hidden;
-  background: ${p => p.theme.colors.background};
+  background: ${(p) => p.theme.colors.background};
   transition: background 0.25s var(--ease-in-out-quad);
 `;
 
@@ -66,9 +74,9 @@ const SiteContentWrapper = styled.div`
 const SiteContent = styled.main`
   padding: 2rem 1rem 2rem;
   transition: 0.25s var(--ease-in-out-quad);
-  
-  opacity: ${p => (p.navOpen ? 0.3 : 1)};
-  transform: ${p => (p.navOpen ? `translateX(16rem)` : null)};
+
+  opacity: ${(p) => (p.navOpen ? 0.3 : 1)};
+  transform: ${(p) => (p.navOpen ? `translateX(16rem)` : null)};
   ${mediaqueries.desktop_up`
     transform: translateX(0);
     opacity: 1;
@@ -80,10 +88,7 @@ const SiteContent = styled.main`
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   tableOfContents: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
-
-
-
 
 export default Layout;

@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
-import { Link } from 'gatsby';
-import React from 'react';
+import styled from "@emotion/styled";
+import { Link } from "gatsby";
+import React from "react";
 
 const LogoWrapper = () => (
   <StyledLogoWrapper>
@@ -16,19 +16,14 @@ const StyledLogoWrapper = styled.div`
 `;
 
 const LogoLink = styled(Link)`
-  position:relative;
+  position: relative;
   align: center;
   display: inline-block;
   text-decoration: none;
   font-size: 25px;
   padding: 0rem 0.5rem 0rem;
   font-weight: normal;
-  color: ${p => p.theme.colors.text};
-  transition: color ${p => p.theme.transition};
-  &:hover,
-  &:focus {
-    color: ${p => p.theme.colors.primary};
-  }
+  color: ${(p) => p.theme.colors.text};
 `;
 
 export default LogoWrapper;

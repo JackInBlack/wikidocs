@@ -1,6 +1,0 @@
-1. Per completare l'installazione, dopo aver estratto il contenuto del file .zip eseguire il comando [npm install]
-   seguito da [gatsby develop]
-2. Il file gatsby-node.js contiene la logica per costruire le pagine a partire dai file mdx nella directory content
-   con il layout del file src/template/docs.js
-3. Il file src/template/docs.js costruisce le pagine usando i react component in src/components
-4. La gerarchia di navigazione viene costruita con una query GraphQL partendo dal file src/components/LeftSidebar/Navigation.js

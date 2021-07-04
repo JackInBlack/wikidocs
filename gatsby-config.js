@@ -12,6 +12,43 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: 'gatsby-plugin-local-search',
+      options: {
+        name: 'pages',
+        engine: 'flexsearch',
+        engineOptions: {
+          encode: "icase",
+          tokenize: "forward",
+          async: false,
+        },
+        query: `
+        {
+          allMdx {
+              nodes {
+                excerpt
+                rawBody
+                fields {
+                  slug
+                  title
+                }
+              }
+            }
+          }      
+        `,
+        ref: 'slug',
+        index: ["title", "rawBody"],
+        store: ['id', 'slug', 'title', 'excerpt'],
+        normalizer: ({ data }) =>
+          data.allMdx.nodes.map((node) => ({
+            id: node.id,
+            slug: node.fields.slug,
+            title: node.fields.title,
+            rawBody: node.rawBody,
+            excerpt: node.excerpt,
+          })),
+      },
+    },
+    {
       resolve: `gatsby-plugin-breadcrumb`,
       options: {
         useAutoGen: true,
@@ -24,7 +61,13 @@ module.exports = {
         excludeOptions: {
           separator: '.'
         },
-        trailingSlashes: true,  
+        crumbLabelUpdates: [
+          {
+            pathname: '/',
+            crumbLabel: 'Index'
+          }
+        ],
+        trailingSlashes: true,
      },
   }, 
     {

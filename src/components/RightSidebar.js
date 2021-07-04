@@ -1,21 +1,19 @@
-import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import mediaqueries from '../styles/media';
-import ListItem from './ListItem';
-import Scrollspy from 'react-scrollspy';
+import styled from "@emotion/styled";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import mediaqueries from "../styles/media";
+import ListItem from "./ListItem";
+import Scrollspy from "react-scrollspy";
 
 const RightSidebar = ({ tableOfContents, location }) => {
-
   const [listItems] = useState(() => {
     if (!tableOfContents.items) {
       return [];
     }
     const mappedLinks = [];
     function mapLinks(items) {
-      items.forEach(item => {
-        if(item.title)
-        {
+      items.forEach((item) => {
+        if (item.title) {
           mappedLinks.push(item);
         }
         if (item.items) {
@@ -23,21 +21,26 @@ const RightSidebar = ({ tableOfContents, location }) => {
         }
       });
     }
-    mapLinks(tableOfContents.items) ;  
+    mapLinks(tableOfContents.items);
     return mappedLinks;
   });
-  
+
   return (
     <RightSidebarWrapper>
       <RightSidebarNav>
-        <RightSidebarTitle>Contenuti</RightSidebarTitle>
+        <RightSidebarTitle>Tabella dei Contenuti</RightSidebarTitle>
         <RightSidebarList>
-        <Scrollspy items={listItems.map(item => {return item.url.substring(1)})} currentClassName="is-current">
-        {listItems.map(item => (
-            <RightSidebarListItem key={item.url}>
-              <ListItem location={location} item={item} />
-            </RightSidebarListItem>
-          ))}
+          <Scrollspy
+            items={listItems.map((item) => {
+              return item.url.substring(1);
+            })}
+            currentClassName="is-current"
+          >
+            {listItems.map((item) => (
+              <RightSidebarListItem key={item.url}>
+                <ListItem location={location} item={item} />
+              </RightSidebarListItem>
+            ))}
           </Scrollspy>
         </RightSidebarList>
       </RightSidebarNav>
@@ -64,7 +67,6 @@ const RightSidebarNav = styled.nav`
   width: 18rem;
   height: 100%;
   padding: 7rem 0rem 0rem;
-  
 `;
 
 const RightSidebarTitle = styled.p`
@@ -87,12 +89,11 @@ const RightSidebarList = styled.ul`
 
 const RightSidebarListItem = styled.li`
   margin: 0.3rem 0;
-
 `;
 
 RightSidebar.propTypes = {
   tableOfContents: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 export default RightSidebar;
