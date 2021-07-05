@@ -21,12 +21,13 @@ const ButtonCollapse = ({ onClick, isCollapsed }) => {
 };
 
 const StyledButtonCollapse = styled.button`
-  position: relative;
+  position: absolute;
   top: 0;
-  right: 0;
-  padding: 0 0.8rem;
-  height: 37px;
-  background: none;
+  right: 1.2rem;
+  padding: 0.2rem;
+  background-color: ${(p) => p.theme.colors.sidebar};
+  height: 44px;
+
   border: 0;
   color: ${(p) => p.theme.colors.text};
   cursor: pointer;

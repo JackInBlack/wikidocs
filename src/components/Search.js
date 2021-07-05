@@ -32,8 +32,8 @@ const Search = () => {
   const findUrl = (slug, arr) => {
     return arr.reduce((a, item) => {
       if (a) return a;
-      if (item.url.includes(slug)) return item.url;
-      if (item.items) return findUrl(slug, item.items);
+      else if (item.url.includes(slug)) return item.url;
+      else return findUrl(slug, item.items);
     }, null);
   };
   const unFlattenResults = (results, tree) =>

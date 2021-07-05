@@ -5,11 +5,6 @@ import mediaqueries from "../styles/media";
 import ListItem from "./ListItem";
 import Scrollspy from "react-scrollspy";
 
-const isCurrent = {
-  color: "#232129",
-  padding: "96px",
-};
-
 const RightSidebar = ({ tableOfContents, location }) => {
   const [listItems] = useState(() => {
     if (!tableOfContents.items) {

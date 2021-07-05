@@ -46,22 +46,21 @@ const StyledNavItem = styled.li`
 `;
 
 const NavItemLink = styled(Link)`
-  display: inline;
+  display: inline-block;
   overflow-wrap: break-word;
-  padding: 0.5rem 1.8rem 0.5rem 1.2rem;
+  padding: 0.3rem 0rem 0.5rem 1.2rem;
   width: 90%;
   color: ${(p) => p.theme.colors.text};
   font-weight: normal;
-  text-decoration: none;
-
   border-left: 1px solid ${(p) => p.theme.colors.borderColor};
+  text-decoration: none;
   transition: color ${(p) => p.theme.transition};
   &:focus,
   &:hover,
   &.is-active {
-    border-left: 1px solid #01447e;
+    border-left: 1px solid ${(p) => p.theme.colors.primary};
+    color: ${(p) => p.theme.colors.primary};
     text-decoration: none;
-    font-weight: bold;
   }
 `;
 

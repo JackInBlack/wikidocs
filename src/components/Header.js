@@ -15,7 +15,7 @@ const Header = ({ navOpen, setNavOpen }) => {
       <HeaderSection>
         <NavIconButton>
           <IconButton
-            label="Open Navigation"
+            label="Apri Navigazione"
             icon={<Menu />}
             size={30}
             onClick={() => {
@@ -28,7 +28,7 @@ const Header = ({ navOpen, setNavOpen }) => {
       <HeaderSection>
         <ButtonContainer>
           <IconButton
-            label="Cambia tema"
+            label="Cambia Tema"
             icon={<ColorToggle />}
             size={30}
             onClick={cycleColorMode}
@@ -65,7 +65,7 @@ const StyledHeader = styled.header`
     top: 0;
     left: 0;
     right: 0;
-    padding: 1rem 1.2rem;
+    padding: 0.5rem 1.2rem;
     transform: translateX(0);
 
   `};

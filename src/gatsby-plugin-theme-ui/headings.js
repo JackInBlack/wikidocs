@@ -1,42 +1,44 @@
 const headingBase = {
-  fontFamily: 'heading',
-  lineHeight: 'heading',
-  fontWeight: 'heading',
+  fontFamily: "heading",
+  lineHeight: "heading",
+  fontWeight: "heading",
   mt: 0,
   mb: 3,
-  '::before': {
+  "::before": {
     content: '" "',
-    display: 'block',
+    display: "block",
     paddingTop: 30,
     marginBottom: 40,
-    borderBottom: '1px solid',
-    borderBottomColor: 'borderColor'
-  }
+    borderBottom: "1px solid",
+    borderBottomColor: "borderColor",
+  },
 };
 
-export default {
+const headings = {
   h1: {
     ...headingBase,
-    fontSize: 5
+    fontSize: 5,
   },
   h2: {
     ...headingBase,
-    fontSize: 4
+    fontSize: 4,
   },
   h3: {
     ...headingBase,
-    fontSize: 3
+    fontSize: 3,
   },
   h4: {
     ...headingBase,
-    fontSize: 2
+    fontSize: 2,
   },
   h5: {
     ...headingBase,
-    fontSize: 1
+    fontSize: 1,
   },
   h6: {
     ...headingBase,
-    fontSize: 0
-  }
+    fontSize: 0,
+  },
 };
+
+export default headings;

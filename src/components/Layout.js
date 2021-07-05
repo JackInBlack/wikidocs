@@ -8,9 +8,25 @@ import mediaqueries from "../styles/media";
 import Header from "./Header";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
+import { Breadcrumb } from "gatsby-plugin-breadcrumb";
 
-const Layout = ({ children, tableOfContents, location }) => {
+const Layout = ({
+  children,
+  tableOfContents,
+  location,
+  pageContext: {
+    breadcrumb: { crumbs },
+  },
+}) => {
   const [navOpen, setNavOpen] = useState(false);
+  if (crumbs[0].pathname === "/" && crumbs.length !== 1) {
+    crumbs.splice(0, 1);
+  }
+  crumbs.forEach(function (arrayItem) {
+    arrayItem.pathname = arrayItem.pathname.replace(/\/\s*$/, "");
+    arrayItem.crumbLabel = arrayItem.crumbLabel.toUpperCase();
+  });
+
   return (
     <Themed.root>
       <Global styles={globalStyles} />
@@ -18,7 +34,12 @@ const Layout = ({ children, tableOfContents, location }) => {
       <SiteWrapper>
         <LeftSidebar navOpen={navOpen} />
         <SiteContentWrapper>
-          <SiteContent navOpen={navOpen}>{children}</SiteContent>
+          <SiteContent navOpen={navOpen}>
+            <BreadcrumbContainer>
+              <Breadcrumb crumbs={crumbs} crumbSeparator="›" />
+            </BreadcrumbContainer>
+            {children}
+          </SiteContent>
         </SiteContentWrapper>
         {tableOfContents.items && (
           <RightSidebar tableOfContents={tableOfContents} location={location} />
@@ -27,6 +48,11 @@ const Layout = ({ children, tableOfContents, location }) => {
     </Themed.root>
   );
 };
+
+const BreadcrumbContainer = styled.div`
+  min-width: 20vh;
+  padding: 20px 0rem 2rem 0rem;
+`;
 
 const SiteWrapper = styled.div`
   display: flex;

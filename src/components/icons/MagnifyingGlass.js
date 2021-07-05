@@ -1,5 +1,4 @@
 import React from "react";
-import SVG from "./SVG";
 
 const MagnifyingGlass = () => (
   <svg

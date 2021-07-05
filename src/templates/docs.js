@@ -5,11 +5,15 @@ import PropTypes from "prop-types";
 import React from "react";
 import Layout from "../components/Layout";
 
-const DocsTemplate = ({ data, location }) => {
+const DocsTemplate = ({ data, location, pageContext }) => {
   const { mdx } = data;
 
   return (
-    <Layout tableOfContents={mdx.tableOfContents} location={location}>
+    <Layout
+      tableOfContents={mdx.tableOfContents}
+      pageContext={pageContext}
+      location={location}
+    >
       <Heading>{mdx.frontmatter.title}</Heading>
       <MDXRenderer>{mdx.body}</MDXRenderer>
     </Layout>

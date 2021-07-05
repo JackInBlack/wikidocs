@@ -11,15 +11,15 @@ const ListItem = ({ location, item }) => {
 
 const ListItemLink = styled(Link)`
   display: block;
-  padding: 0.2rem 0;
+  padding: 0rem 0;
   width: 100%;
   color: ${(p) => p.theme.colors.text};
   font-weight: normal;
-  text-decoration: none;
+
   transition: color ${(p) => p.theme.transition};
   &:hover {
     text-decoration: none;
-    font-weight: bold;
+    color: ${(p) => p.theme.colors.primary};
   }
 `;
 

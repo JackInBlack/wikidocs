@@ -6,7 +6,7 @@ const transition = "0.2s ease-out";
 const systemFonts =
   "-apple-system, BlinkMacSystemFont, San Francisco, Helvetica Neue, Helvetica, Ubuntu, Roboto, Noto, Segoe UI, Arial, sans-serif";
 
-export default {
+const index = {
   initialColorMode: `dark`,
   colors,
   fonts: {
@@ -85,3 +85,5 @@ export default {
     },
   },
 };
+
+export default index;

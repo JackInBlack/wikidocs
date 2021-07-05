@@ -47,7 +47,7 @@ const LeftSidebarNav = styled.nav`
   transform: ${(p) => (p.navOpen ? `translateX(19rem)` : null)};
   ${mediaqueries.desktop_up`
     transform: translateX(0);
-    padding: 5rem 0 1rem;
+    padding: 6rem 0 1rem;
   `};
 `;
 
